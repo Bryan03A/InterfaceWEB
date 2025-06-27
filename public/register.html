@@ -117,6 +117,14 @@
 
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(responseText, "text/xml");
+        const message = xmlDoc.getElementsByTagName("us:message")[0]?.textContent;
+        const errorCode = xmlDoc.getElementsByTagName("us:error")[0]?.textContent;
+
+        if (errorCode === "duplicate_entry") {
+            alert(message || "El nombre de usuario ya está ocupado.");
+            return;
+        }
+
         const userId = xmlDoc.getElementsByTagName("us:id")[0]?.textContent;
 
         if (!userId) {
