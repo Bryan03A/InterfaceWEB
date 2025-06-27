@@ -6,6 +6,7 @@
     <title>Registro con Foto de Perfil</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/register.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <!-- Barra de navegación -->
@@ -76,6 +77,16 @@
     </footer>
     
     <script>
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('profilePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
     async function registerUser(event) {
         event.preventDefault();
 
