@@ -19,7 +19,7 @@ jobs:
           host: 3.227.120.143
           username: ec2-user               # o ubuntu, depende de tu AMI
           key: ${{ secrets.EC2_SSH_KEY }}
-          port: 8080
+          port: 22
           script: |
             git clone https://github.com/Bryan03A/InterfaceWEB.git
             git pull origin main
