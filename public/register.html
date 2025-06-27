@@ -163,8 +163,10 @@
 
         if (uploadResponse.ok) {
             alert("Usuario registrado y foto de perfil subida con éxito.");
+            window.location.href = "login.html";
         } else {
             alert("Usuario registrado, pero hubo un error al subir la imagen.");
+            window.location.href = "login.html";
         }
 
         } catch (error) {
