@@ -76,97 +76,83 @@
     </footer>
     
     <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                document.getElementById("profilePreview").src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
+    async function registerUser(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const first_name = document.getElementById("first_name").value;
+        const last_name = document.getElementById("last_name").value;
+        const dni = document.getElementById("dni").value;
+        const email = document.getElementById("email").value;
+        const city = document.getElementById("city").value;
+        const profileImage = document.getElementById("profile_image").files[0];
+
+        const soapRequest = `
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:user="http://example.com/user">
+            <soapenv:Header/>
+            <soapenv:Body>
+            <user:RegisterUser>
+                <user:username>${username}</user:username>
+                <user:password>${password}</user:password>
+                <user:first_name>${first_name}</user:first_name>
+                <user:last_name>${last_name}</user:last_name>
+                <user:dni>${dni}</user:dni>
+                <user:email>${email}</user:email>
+                <user:city>${city}</user:city>
+            </user:RegisterUser>
+            </soapenv:Body>
+        </soapenv:Envelope>
+        `;
+
+        try {
+        const response = await fetch("http://34.193.65.142:5002/register", {
+            method: "POST",
+            headers: { "Content-Type": "text/xml" },
+            body: soapRequest
+        });
+
+        const responseText = await response.text();
+        console.log("Respuesta SOAP:", responseText);
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(responseText, "text/xml");
+        const userId = xmlDoc.getElementsByTagName("us:id")[0]?.textContent;
+
+        if (!userId) {
+            alert("Error: No se pudo obtener el ID del usuario.");
+            console.error("Respuesta sin ID:", responseText);
+            return;
         }
 
-        async function registerUser(event) {
-            event.preventDefault();
+        console.log("Nuevo ID de usuario:", userId);
 
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const first_name = document.getElementById("first_name").value;
-            const last_name = document.getElementById("last_name").value;
-            const dni = document.getElementById("dni").value;
-            const email = document.getElementById("email").value;
-            const city = document.getElementById("city").value;
-            const profileImage = document.getElementById("profile_image").files[0];
+        const formData = new FormData();
 
-            const soapRequest = `
-                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:user="http://example.com/user">
-                    <soapenv:Header/>
-                    <soapenv:Body>
-                        <user:RegisterUser>
-                            <user:username>${username}</user:username>
-                            <user:password>${password}</user:password>
-                            <user:first_name>${first_name}</user:first_name>
-                            <user:last_name>${last_name}</user:last_name>
-                            <user:dni>${dni}</user:dni>
-                            <user:email>${email}</user:email>
-                            <user:city>${city}</user:city>
-                        </user:RegisterUser>
-                    </soapenv:Body>
-                </soapenv:Envelope>
-            `;
-
-            try {
-                // Enviar datos al microservicio de usuario
-                const response = await fetch("http://34.193.65.142:5002/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "text/xml" },
-                    body: soapRequest
-                });
-
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(responseText, "text/xml");
-                userId = xmlDoc.getElementsByTagName("us:id")[0]?.textContent;
-
-                if (!userId) {
-                    alert("Error: No se pudo obtener el ID del usuario.");
-                    console.error("XML recibido:", responseText);
-                    return;
-                }
-
-
-                const userId = userIdMatch[1];
-                console.log("Nuevo ID de usuario:", userId);
-
-                // Si no se seleccionó una imagen, se usará la imagen predeterminada
-                const imageToUpload = profileImage || "images/default-avatar.png";  // Usar la imagen predeterminada si no hay imagen seleccionada
-
-                // Subir la imagen (ya sea seleccionada o la predeterminada)
-                const formData = new FormData();
-                
-                // Si no se seleccionó una imagen, se creará un objeto Blob con la imagen predeterminada
-                if (profileImage) {
-                    formData.append("file", profileImage, `${userId}.png`);
-                } else {
-                    const defaultImage = await fetch(imageToUpload);
-                    const defaultImageBlob = await defaultImage.blob();
-                    formData.append("file", defaultImageBlob, `${userId}.png`);
-                }
-
-                const uploadResponse = await fetch("http://54.90.161.226:5015/upload_image", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const uploadData = await uploadResponse.json();
-                if (uploadResponse.ok) {
-                    alert("Usuario registrado y foto de perfil subida con éxito.");
-                } else {
-                    alert("Usuario registrado, pero hubo un error al subir la foto.");
-                }
-
-            } catch (error) {
-                console.error("Error en el registro:", error);
-                alert("Hubo un error al registrar el usuario.");
-            }
+        if (profileImage) {
+            formData.append("file", profileImage, `${userId}.png`);
+        } else {
+            const defaultImage = await fetch("images/default-avatar.png");
+            const defaultBlob = await defaultImage.blob();
+            formData.append("file", defaultBlob, `${userId}.png`);
         }
+
+        const uploadResponse = await fetch("http://54.90.161.226:5015/upload_image", {
+            method: "POST",
+            body: formData
+        });
+
+        if (uploadResponse.ok) {
+            alert("Usuario registrado y foto de perfil subida con éxito.");
+        } else {
+            alert("Usuario registrado, pero hubo un error al subir la imagen.");
+        }
+
+        } catch (error) {
+        console.error("Error en el registro:", error);
+        alert("Hubo un error al registrar el usuario.");
+        }
+    }
     </script>
 </body>
 </html>
