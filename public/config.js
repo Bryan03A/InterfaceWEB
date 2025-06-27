@@ -6,7 +6,7 @@ const config = {
 
     // sessionApiUrl: The URL for the session-related API, again checking for 'localhost' or production.
     // If it's 'localhost', it points to a different port for local development; otherwise, it uses the production server.
-    sessionApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004' : 'http://98.84.113.50:5004',
+    sessionApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004' : 'http://34.193.65.142/session',
 
     // catalogApiUrl: Similar to the other URLs, this is for accessing the catalog API, adjusting based on the environment.
     catalogApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003' : 'http://98.84.113.50:5003',
