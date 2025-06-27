@@ -120,7 +120,7 @@
         const message = xmlDoc.getElementsByTagName("us:message")[0]?.textContent;
         const errorCode = xmlDoc.getElementsByTagName("us:error")[0]?.textContent;
 
-        if (errorCode === "duplicate_entry") {
+        if (errorCode === "user_username_key") {
             alert(message || "El nombre de usuario ya está ocupado.");
             return;
         }
