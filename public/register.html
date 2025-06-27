@@ -121,14 +121,16 @@
                     body: soapRequest
                 });
 
-                const responseText = await response.text();
-                console.log("Respuesta SOAP:", responseText);
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(responseText, "text/xml");
+                userId = xmlDoc.getElementsByTagName("us:id")[0]?.textContent;
 
-                const userIdMatch = responseText.match(/<us:id>(.*?)<\/us:id>/);
-                if (!userIdMatch) {
+                if (!userId) {
                     alert("Error: No se pudo obtener el ID del usuario.");
+                    console.error("XML recibido:", responseText);
                     return;
                 }
+
 
                 const userId = userIdMatch[1];
                 console.log("Nuevo ID de usuario:", userId);
