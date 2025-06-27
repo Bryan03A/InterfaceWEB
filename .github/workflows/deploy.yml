@@ -24,11 +24,13 @@ jobs:
                   # Clonar o actualizar repo
                   if [ -d ~/InterfaceWEB ]; then
                     cd ~/InterfaceWEB
-                    git pull origin main
+                    git pull origin test
                   else
-                    git clone https://github.com/Bryan03A/InterfaceWEB.git ~/InterfaceWEB
+                    git clone -b test https://github.com/Bryan03A/InterfaceWEB.git ~/InterfaceWEB
                     cd ~/InterfaceWEB
                   fi
+
+                  npm install
 
                   # Entrar a interface-service
                   cd interface-service
