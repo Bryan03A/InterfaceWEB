@@ -9,7 +9,7 @@ const config = {
     sessionApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004' : 'http://54.90.161.226/session',
 
     // catalogApiUrl: Similar to the other URLs, this is for accessing the catalog API, adjusting based on the environment.
-    catalogApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003' : 'http://98.84.113.50:5003',
+    catalogApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003' : 'http://54.90.161.226/catalog/',
 
     // catalogApiUrl: Similar to the other URLs, this is for accessing the catalog API, adjusting based on the environment.
     catalogDelApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5011' : 'http://98.84.113.50:5011',

@@ -245,7 +245,7 @@
                     if (!response.ok) throw new Error("Error al actualizar estado");
 
                     if (stateType === 'paid' && newValue === true) {
-                        const customModelUpdateResponse = await fetch(`http://localhost:5007/customize-model/${orderId}/state`, {
+                        const customModelUpdateResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
                             method: "PUT",
                             headers: { "Authorization": `Bearer ${token}` }
                         });
