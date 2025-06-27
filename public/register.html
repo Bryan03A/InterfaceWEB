@@ -117,7 +117,7 @@
         `;
 
         try {
-        const response = await fetch("http://34.193.65.142:5002/register", {
+        const response = await fetch("http://54.90.161.226/user-soap/register", {
             method: "POST",
             headers: { "Content-Type": "text/xml" },
             body: soapRequest
@@ -156,7 +156,7 @@
             formData.append("file", defaultBlob, `${userId}.png`);
         }
 
-        const uploadResponse = await fetch("http://54.243.94.215:5015/upload_image", {
+        const uploadResponse = await fetch("http://54.90.161.226/profile-image/upload_image", {
             method: "POST",
             body: formData
         });
