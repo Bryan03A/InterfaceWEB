@@ -120,15 +120,23 @@
         const response = await fetch("http://54.90.161.226/user-soap/register", {
             method: "POST",
             headers: { "Content-Type": "text/xml" },
-            body: soapRequest
+            body: soapRequest,
+            credentials: "include" // <-- si usas cookies/sesiones
         });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Error HTTP:", errorText);
+            alert("Error en el servidor (código " + response.status + ").");
+            return;
+        }
 
         const responseText = await response.text();
         console.log("Respuesta SOAP:", responseText);
 
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(responseText, "text/xml");
-        const message = xmlDoc.getElementsByTagName("us:message")[0]?.textContent;
+        const message = xmlDoc.getElementsByTagName("us:message")[0]?.textContent || "Error desconocido";
         const errorCode = xmlDoc.getElementsByTagName("us:error")[0]?.textContent;
 
         if (errorCode === "user_username_key") {
