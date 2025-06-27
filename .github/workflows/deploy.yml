@@ -25,5 +25,6 @@ jobs:
             git pull origin main
             cd interface-service
             npm install
-            pkill -f server.js || true
-            nohup node server.js > output.log 2>&1 &
+            pm2 delete interface-service || true
+            pm2 start server.js --name interface-service
+            pm2 save
