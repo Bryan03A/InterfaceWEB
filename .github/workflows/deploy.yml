@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 8080
           script: |
-            cd ~/InterfaceWEB || git clone https://github.com/Bryan03A/InterfaceWEB.git && cd InterfaceWEB
+            git clone https://github.com/Bryan03A/InterfaceWEB.git
             git pull origin main
             cd interface-service
             npm install
