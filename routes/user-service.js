@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 
 const router = express.Router();
-const USER_SERVICE_URL = process.env.USER_SERVICE_URL || 'http://localhost:5002';
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL || 'http://34.193.65.142/soap';
 
 // Route to handle new user registration
 router.post('/register', async (req, res) => {
