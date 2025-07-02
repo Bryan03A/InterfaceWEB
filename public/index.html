@@ -247,7 +247,7 @@
         if (!username) return;
 
         try {
-            const response = await fetch("http://54.90.161.226/redis/recent-searches?username=" + username);
+            const response = await fetch("http://54.166.118.216:5005/recent-searches?username=" + username);
             const data = await response.json();
 
             const recommendedContainer = document.getElementById("recommended-container");
