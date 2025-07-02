@@ -103,7 +103,7 @@
 
         function checkUserExists(username, recipient) {
             return new Promise((resolve, reject) => {
-                fetch(`http://54.90.161.226/last-connection?username=${recipient}`)
+                fetch(`http://54.90.161.226/connected/last-connection?username=${recipient}`)
                     .then(response => {
                         if (response.status === 404) return null;
                         if (!response.ok) throw new Error("Error al obtener la última conexión");
