@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="chat-container">
-        <h2>Chat en Tiempo Real</h2>
+        <h2>Chat en Tiempo Real 2</h2>
 
         <!-- Formulario para ingresar los usuarios -->
         <div id="user-form">
@@ -79,7 +79,7 @@
                     document.getElementById("chat-with").innerText = 
                         `Estás chateando con: ${recipient}\nÚltima conexión: ${recipientData.lastConnection}`;
 
-                    socket = new WebSocket(`ws://54.166.118.216:5010/ws/${username}/${recipient}`);
+                    socket = new WebSocket(`ws://54.90.161.226/ws/${username}/${recipient}`);
 
                     socket.onopen = () => {
                         console.log("Conectado al WebSocket");
