@@ -79,7 +79,7 @@
                     document.getElementById("chat-with").innerText = 
                         `Estás chateando con: ${recipient}\nÚltima conexión: ${recipientData.lastConnection}`;
 
-                    socket = new WebSocket(`ws://54.166.118.216/5010/ws/${username}/${recipient}`);
+                    socket = new WebSocket(`ws://54.166.118.216:5010/ws/${username}/${recipient}`);
 
                     socket.onopen = () => {
                         console.log("Conectado al WebSocket");
