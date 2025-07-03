@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 8080;
 
-// Middleware para parsear JSON y datos del formulario
+// Middleware para parsear JSON y datos del formularioa
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
