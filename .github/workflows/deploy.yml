@@ -33,8 +33,7 @@ jobs:
                   npm install
 
                   # Entrar a interface-service
-                  cd interface-service
-
+                  cd InterfaceWEB
                   # Instalar dependencias
                   npm install
 
