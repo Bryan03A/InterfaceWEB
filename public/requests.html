@@ -160,7 +160,7 @@
 
             async function fetchOrders(username) {
                 try {
-                    const response = await fetch(`http://localhost:5018/orders/created_by/${username}`, {
+                    const response = await fetch(`http://54.90.161.226/requests/orders/created_by/${username}`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`

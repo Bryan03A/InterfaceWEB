@@ -191,7 +191,7 @@
 
             async function fetchOrderStatus(orderId) {
                 try {
-                    const response = await fetch(`http://localhost:5017/orders/${orderId}/status`, {
+                    const response = await fetch(`http://54.90.161.226/order-status/orders/${orderId}/status`, {
                         headers: { "Authorization": `Bearer ${token}` }
                     });
                     if (!response.ok) throw new Error("Error al obtener estado de la orden");
@@ -233,7 +233,7 @@
                 const updateData = { user_id: userId, new_value: newValue, state_type: stateType };
 
                 try {
-                    const response = await fetch(`http://localhost:5017/orders/${orderId}/update`, {
+                    const response = await fetch(`http://54.90.161.226/order-status/orders/${orderId}/update`, {
                         method: "PUT",
                         headers: { 
                             "Content-Type": "application/json",
