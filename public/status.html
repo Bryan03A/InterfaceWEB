@@ -247,7 +247,10 @@
                         body: JSON.stringify(updateData)
                     });
 
-                    if (!response.ok) throw new Error("Error al actualizar estado");
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.detail || "Error al actualizar estado");
+                    }
 
                     if (stateType === 'paid' && newValue === true) {
                         const customModelUpdateResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
