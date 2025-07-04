@@ -21,6 +21,14 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            # Verificar si Node.js está instalado
+            if ! command -v node >/dev/null 2>&1; then
+              echo "❌ Node.js no está instalado. Aborta el despliegue."
+              exit 1
+            fi
+
+            echo "✅ Node.js detectado: $(node -v)"
+
             # Clonar o actualizar el repositorio
             if [ -d ~/InterfaceWEB ]; then
               cd ~/InterfaceWEB
@@ -30,14 +38,14 @@ jobs:
               cd ~/InterfaceWEB
             fi
 
-            # Instalar dependencias del proyecto, incluyendo pm2 local
+            # Instalar dependencias (incluye pm2 local)
             npm install
 
-            # Detener la app anterior si está corriendo
+            # Detener instancia previa si existe
             npx pm2 delete interface-service || true
 
-            # Iniciar la app con pm2 (vía npx)
+            # Iniciar app con PM2 local
             npx pm2 start server.js --name interface-service
 
-            # Guardar configuración
+            # Guardar configuración (procesos y ecosistema)
             npx pm2 save
