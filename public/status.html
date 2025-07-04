@@ -248,18 +248,19 @@
                     });
 
                     if (!response.ok) {
-                        const errorResponse = await response.json();  // ← obtenemos el JSON con el detalle
+                        const errorResponse = await response.json();
                         throw new Error(errorResponse.detail || "Error desconocido");
                     }
 
+                    // Si se actualizó a 'paid', también llama a customize-model
                     if (stateType === 'paid' && newValue === true) {
                         const customResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
                             method: "PUT",
                             headers: { "Authorization": `Bearer ${token}` }
                         });
 
-                        if (!customModelUpdateResponse.ok) {
-                            const customError = await customModelUpdateResponse.json();
+                        if (!customResponse.ok) {
+                            const customError = await customResponse.json();
                             throw new Error(customError.detail || "Error en el servicio de personalización");
                         }
 
@@ -267,7 +268,6 @@
                     } else {
                         alert("Estado actualizado correctamente");
                     }
-
 
                     fetchOrderStatus(orderId);
 
