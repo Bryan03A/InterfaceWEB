@@ -21,13 +21,24 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # Verificar si Node.js está instalado
+            # Ruta de instalación local
+            export NODE_DIR=$HOME/.local-node
+            export PATH=$NODE_DIR/bin:$PATH
+
+            # Instalar Node.js local si no existe
             if ! command -v node >/dev/null 2>&1; then
-              echo "❌ Node.js no está instalado. Aborta el despliegue."
-              exit 1
+              echo "⚙️ Instalando Node.js localmente..."
+              mkdir -p $NODE_DIR
+              curl -fsSL https://nodejs.org/dist/v18.18.2/node-v18.18.2-linux-x64.tar.xz -o node.tar.xz
+              tar -xf node.tar.xz -C $NODE_DIR --strip-components=1
+              rm node.tar.xz
+            else
+              echo "✅ Node.js detectado: $(node -v)"
             fi
 
-            echo "✅ Node.js detectado: $(node -v)"
+            # Confirmar que node y npm están accesibles
+            echo "🟢 Node.js path: $(which node)"
+            echo "🟢 NPM path: $(which npm)"
 
             # Clonar o actualizar el repositorio
             if [ -d ~/InterfaceWEB ]; then
@@ -47,5 +58,5 @@ jobs:
             # Iniciar app con PM2 local
             npx pm2 start server.js --name interface-service
 
-            # Guardar configuración (procesos y ecosistema)
+            # Guardar configuración
             npx pm2 save
