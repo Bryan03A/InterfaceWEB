@@ -164,7 +164,7 @@
             formData.append("file", defaultBlob, `${userId}.png`);
         }
 
-        const uploadResponse = await fetch("http://34.236.169.1/profile-image/upload_image", {
+        const uploadResponse = await fetch("http://50.19.4.172/profile-image/upload_image", {
             method: "POST",
             body: formData
         });
