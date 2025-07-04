@@ -248,26 +248,46 @@
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.detail || "Error al actualizar estado");
+                        let errorMessage = "No se pudo actualizar el estado";
+                        try {
+                            const errorData = await response.json();
+                            if (errorData.detail) {
+                                errorMessage = errorData.detail;
+                            }
+                        } catch (e) {
+                            console.warn("Respuesta no es JSON válida");
+                        }
+                        throw new Error(errorMessage);
                     }
 
                     if (stateType === 'paid' && newValue === true) {
-                        const customModelUpdateResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
+                        const customResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
                             method: "PUT",
                             headers: { "Authorization": `Bearer ${token}` }
                         });
 
-                        if (!customModelUpdateResponse.ok) throw new Error("Error al actualizar estado en custom-service");
+                        if (!customResponse.ok) {
+                            let customError = "Error al actualizar estado en custom-service";
+                            try {
+                                const customData = await customResponse.json();
+                                if (customData.detail) {
+                                    customError = customData.detail;
+                                }
+                            } catch (e) {}
+                            throw new Error(customError);
+                        }
+
                         alert("Estado actualizado correctamente en ambas plataformas");
                     } else {
                         alert("Estado actualizado correctamente");
                     }
 
+
                     fetchOrderStatus(orderId);
+                    
                 } catch (error) {
                     console.error("Error:", error);
-                    alert("No se pudo actualizar el estado");
+                    alert(error.message || "No se pudo actualizar el estado");
                 }
             }
 
