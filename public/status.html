@@ -248,16 +248,8 @@
                     });
 
                     if (!response.ok) {
-                        let errorMessage = "No se pudo actualizar el estado";
-                        try {
-                            const errorData = await response.json();
-                            if (errorData.detail) {
-                                errorMessage = errorData.detail;
-                            }
-                        } catch (e) {
-                            console.warn("Respuesta no es JSON válida");
-                        }
-                        throw new Error(errorMessage);
+                        const errorResponse = await response.json();  // ← obtenemos el JSON con el detalle
+                        throw new Error(errorResponse.detail || "Error desconocido");
                     }
 
                     if (stateType === 'paid' && newValue === true) {
@@ -266,15 +258,9 @@
                             headers: { "Authorization": `Bearer ${token}` }
                         });
 
-                        if (!customResponse.ok) {
-                            let customError = "Error al actualizar estado en custom-service";
-                            try {
-                                const customData = await customResponse.json();
-                                if (customData.detail) {
-                                    customError = customData.detail;
-                                }
-                            } catch (e) {}
-                            throw new Error(customError);
+                        if (!customModelUpdateResponse.ok) {
+                            const customError = await customModelUpdateResponse.json();
+                            throw new Error(customError.detail || "Error en el servicio de personalización");
                         }
 
                         alert("Estado actualizado correctamente en ambas plataformas");
@@ -284,10 +270,10 @@
 
 
                     fetchOrderStatus(orderId);
-                    
+
                 } catch (error) {
                     console.error("Error:", error);
-                    alert(error.message || "No se pudo actualizar el estado");
+                    alert(error.message);
                 }
             }
 
