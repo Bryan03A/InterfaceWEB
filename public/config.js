@@ -2,19 +2,19 @@
 const config = {
     // apiUrl: The URL for the main API, checking if the current environment is 'localhost' or production.
     // If it's 'localhost', it uses the local development URL (localhost); otherwise, it uses the production URL.
-    apiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5001' : 'http://54.90.161.226/auth',
+    apiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5001' : 'http://34.236.169.1/auth',
 
     // sessionApiUrl: The URL for the session-related API, again checking for 'localhost' or production.
     // If it's 'localhost', it points to a different port for local development; otherwise, it uses the production server.
-    sessionApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004' : 'http://54.90.161.226/session',
+    sessionApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004' : 'http://34.236.169.1/session',
 
     // catalogApiUrl: Similar to the other URLs, this is for accessing the catalog API, adjusting based on the environment.
-    catalogApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003' : 'http://54.90.161.226/catalog',
+    catalogApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003' : 'http://34.236.169.1/catalog',
 
     // catalogApiUrl: Similar to the other URLs, this is for accessing the catalog API, adjusting based on the environment.
-    catalogDelApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5011' : 'http://54.90.161.226/catalog-del',
+    catalogDelApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5011' : 'http://34.236.169.1/catalog-del',
 
-    imageApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5009' : 'http://54.90.161.226/image'
+    imageApiUrl: window.location.hostname === 'localhost' ? 'http://localhost:5009' : 'http://34.236.169.1/image'
 };
 
 // Expose the config object globally so it can be accessed anywhere in the client-side code

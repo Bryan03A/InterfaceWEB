@@ -115,9 +115,9 @@
 
             // Redirigir a la nueva página con el mismo id
             if (id) {
-                window.location.href = `http://localhost:8080/chat.html?id=${id}`;
+                window.location.href = `http://34.236.169.1:8080/chat.html?id=${id}`;
             } else {
-                window.location.href = "http://localhost:8080/chat.html"; // Si no hay id, redirige sin parámetro
+                window.location.href = "http://34.236.169.1:8080/chat.html"; // Si no hay id, redirige sin parámetro
             }
         });
 
@@ -204,7 +204,7 @@
 
             try {
                 // Hacer la petición al backend para obtener los detalles del modelo
-                const response = await fetch(`http://54.90.161.226/custom/customize-model/${modelId}`, {
+                const response = await fetch(`http://34.236.169.1/custom/customize-model/${modelId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -250,7 +250,7 @@
         // Función para obtener la imagen del modelo por su ID
         async function getImageUrl(modelId) {
             try {
-                const imageResponse = await fetch(`http://54.90.161.226/image/image/${modelId}`);
+                const imageResponse = await fetch(`http://34.236.169.1/image/image/${modelId}`);
                 if (imageResponse.ok) {
                     return imageResponse.url; // Retornamos la URL de la imagen
                 } else {
@@ -294,7 +294,7 @@
             };
     
             // Send changes to the server
-            fetch(`http://54.90.161.226/custom-up/customize-model/${modelId}`, {
+            fetch(`http://34.236.169.1/custom-up/customize-model/${modelId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -341,7 +341,7 @@
     
         // 9️⃣ Confirm deletion
         document.getElementById("confirm-delete-btn").addEventListener("click", () => {
-            fetch(`http://54.90.161.226/custom-del/customize-model/${modelId}`, {
+            fetch(`http://34.236.169.1/custom-del/customize-model/${modelId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -42,7 +42,7 @@
 
     <!-- Contenedor del iframe -->
     <div class="iframe-container" id="iframeContainer">
-        <iframe src="http://3.227.120.143:8080/chat.html" frameborder="0"></iframe>
+        <iframe src="http://334.236.169.1:8080/chat.html" frameborder="0"></iframe>
     </div>
 
     <!-- Footer -->
@@ -194,7 +194,7 @@
 
             async function fetchOrderStatus(orderId) {
                 try {
-                    const response = await fetch(`http://54.90.161.226/order-status/orders/${orderId}/status`, {
+                    const response = await fetch(`http://34.236.169.1/order-status/orders/${orderId}/status`, {
                         headers: { "Authorization": `Bearer ${token}` }
                     });
                     if (!response.ok) throw new Error("Error al obtener estado de la orden");
@@ -238,7 +238,7 @@
                 const updateData = { user_id: userId, username: username, new_value: newValue, state_type: stateType };
 
                 try {
-                    const response = await fetch(`http://54.90.161.226/order-status/orders/${orderId}/update`, {
+                    const response = await fetch(`http://34.236.169.1/order-status/orders/${orderId}/update`, {
                         method: "PUT",
                         headers: { 
                             "Content-Type": "application/json",
@@ -254,7 +254,7 @@
 
                     // Si se actualizó a 'paid', también llama a customize-model
                     if (stateType === 'paid' && newValue === true) {
-                        const customResponse = await fetch(`http://54.90.161.226/custom/customize-model/${orderId}/state`, {
+                        const customResponse = await fetch(`http://34.236.169.1/custom/customize-model/${orderId}/state`, {
                             method: "PUT",
                             headers: { "Authorization": `Bearer ${token}` }
                         });
