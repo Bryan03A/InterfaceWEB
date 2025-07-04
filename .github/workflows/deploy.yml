@@ -30,19 +30,14 @@ jobs:
               cd ~/InterfaceWEB
             fi
 
-            # Instalar pm2 globalmente si no está instalado
-            if ! command -v pm2 &> /dev/null; then
-              npm install -g pm2
-            fi
-
-            # Instalar dependencias del proyecto
+            # Instalar dependencias del proyecto, incluyendo pm2 local
             npm install
 
             # Detener la app anterior si está corriendo
-            pm2 delete interface-service || true
+            npx pm2 delete interface-service || true
 
-            # Iniciar la app con pm2
-            pm2 start server.js --name interface-service
+            # Iniciar la app con pm2 (vía npx)
+            npx pm2 start server.js --name interface-service
 
-            # Guardar la configuración para reinicio automático
-            pm2 save
+            # Guardar configuración
+            npx pm2 save
