@@ -204,7 +204,7 @@
 
             try {
                 // Hacer la petición al backend para obtener los detalles del modelo
-                const response = await fetch(`http://50.19.4.172/custom/customize-model/${modelId}`, {
+                const response = await fetch(`http://3.224.44.87/custom/customize-model/${modelId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -250,7 +250,7 @@
         // Función para obtener la imagen del modelo por su ID
         async function getImageUrl(modelId) {
             try {
-                const imageResponse = await fetch(`http://50.19.4.172/image/image/${modelId}`);
+                const imageResponse = await fetch(`http://3.224.44.87/image/image/${modelId}`);
                 if (imageResponse.ok) {
                     return imageResponse.url; // Retornamos la URL de la imagen
                 } else {
@@ -294,7 +294,7 @@
             };
     
             // Send changes to the server
-            fetch(`http://50.19.4.172/custom-up/customize-model/${modelId}`, {
+            fetch(`http://3.224.44.87/custom-up/customize-model/${modelId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -341,7 +341,7 @@
     
         // 9️⃣ Confirm deletion
         document.getElementById("confirm-delete-btn").addEventListener("click", () => {
-            fetch(`http://50.19.4.172/custom-del/customize-model/${modelId}`, {
+            fetch(`http://3.224.44.87/custom-del/customize-model/${modelId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
