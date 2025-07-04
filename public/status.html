@@ -234,7 +234,7 @@
             console.log("decodedToken", decodedToken);
 
             async function updateState(orderId, stateType, newValue) {
-                const updateData = { user_id: userId, username: username, new_value: newValue, state_type: stateType };
+                const updateData = { user_id: username, new_value: newValue, state_type: stateType };
 
                 try {
                     const response = await fetch(`http://54.90.161.226/order-status/orders/${orderId}/update`, {
