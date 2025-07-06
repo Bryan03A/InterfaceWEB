@@ -110,7 +110,7 @@
                     <p><strong>ID:</strong> ${model._id}</p>
                     <p><strong>Format:</strong> ${model.format}</p>
                     <p><strong>Price:</strong> $${model.price}</p>
-                    <p><strong>Tags:</strong> ${model.tags.join(', ')}</p>
+                    <p><strong>Tags:</strong> ${(Array.isArray(model.tags) ? model.tags.join(', ') : 'Sin etiquetas')}</p>
                     <button class="delete-btn" data-id="${model._id}">Delete</button>
                 `;
                 container.appendChild(modelCard);
