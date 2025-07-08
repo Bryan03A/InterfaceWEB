@@ -6,6 +6,7 @@
     <title>SkillMarket</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -42,27 +43,31 @@
     </div>
 
     <!-- Search Bar Section -->
-    <div class="search-bar">
-        <input type="text" id="searchQuery" placeholder="Buscar modelo...">
-        <input type="text" id="creatorFilter" placeholder="Filtrar por creador...">
+    <div class="search-bar-container p-4 bg-white rounded-xl shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <input type="text" id="searchQuery" placeholder="Search model..." class="flex-1 px-4 py-2 border rounded-lg w-full md:w-auto" />
+    
+    <input type="text" id="creatorFilter" placeholder="Filter by creator..." class="flex-1 px-4 py-2 border rounded-lg w-full md:w-auto" />
 
-        <div class="search-options">
-            <label for="sortBy">Ordenar por:</label>
-            <select id="sortBy">
-                <option value="name">Nombre</option>
-                <option value="price">Precio</option>
-            </select>
-
-            <label for="order">Orden:</label>
-            <select id="order">
-                <option value="asc">Ascendente</option>
-                <option value="desc">Descendente</option>
-            </select>
+    <div class="flex flex-col md:flex-row gap-2 items-start md:items-center">
+        <div class="flex flex-col">
+        <label for="sortBy" class="text-sm font-semibold">Sort by:</label>
+        <select id="sortBy" class="px-3 py-1 border rounded-lg">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+        </select>
         </div>
 
-        <button onclick="searchModels()">🔍 Buscar</button>
+        <div class="flex flex-col">
+        <label for="order" class="text-sm font-semibold">Order:</label>
+        <select id="order" class="px-3 py-1 border rounded-lg">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+        </div>
     </div>
 
+  <button onclick="searchModels()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition w-full md:w-auto">🔍 Search</button>
+</div>
     <!-- Recommended Models Section (Currently Empty) -->
     <div class="section">
         <h2>Recommended</h2>
