@@ -17,6 +17,7 @@ public class HashPasswordOptimized {
             System.out.println("1. Guardar contraseña");
             System.out.println("2. Buscar contraseña por SHA-256");
             System.out.println("3. Salir");
+            System.out.println("4. Listar todas las contraseñas guardadas");
             System.out.print("Elige una opción: ");
             String option = scanner.nextLine();
 
@@ -46,6 +47,17 @@ public class HashPasswordOptimized {
                     System.out.println("Saliendo...");
                     scanner.close();
                     return;
+
+                case "4":
+                    if (hashToPassword.isEmpty()) {
+                        System.out.println("No hay contraseñas guardadas.");
+                    } else {
+                        System.out.println("Listado de contraseñas guardadas:");
+                        for (Map.Entry<String, String> entry : hashToPassword.entrySet()) {
+                            System.out.println("Contraseña: " + entry.getValue() + " | SHA-256: " + entry.getKey());
+                        }
+                    }
+                    break;
 
                 default:
                     System.out.println("Opción inválida.");
