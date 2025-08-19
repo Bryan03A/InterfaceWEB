@@ -1,0 +1,41 @@
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
+
+public class HashPassword {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 1. Pedir contraseña
+        System.out.print("Introduce la contraseña: ");
+        String password = scanner.nextLine();
+
+        // 2. Convertir a SHA-256
+        String hash = sha256(password);
+
+        // 3. Mostrar hash en consola
+        System.out.println("SHA-256: " + hash);
+
+        scanner.close();
+    }
+
+    // Función que convierte texto a SHA-256 en hexadecimal
+    public static String sha256(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(input.getBytes());
+
+            // Convertir bytes a formato hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : encodedHash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
