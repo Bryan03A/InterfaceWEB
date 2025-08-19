@@ -1,39 +1,71 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-public class HashPassword {
+public class HashPasswordOptimized {
+
+    // Base de datos en memoria: hash -> contraseña original
+    private static Map<String, String> hashToPassword = new HashMap<>();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 1. Pedir contraseña
-        System.out.print("Introduce la contraseña: ");
-        String password = scanner.nextLine();
+        while (true) {
+            System.out.println("\nOpciones:");
+            System.out.println("1. Guardar contraseña");
+            System.out.println("2. Buscar contraseña por SHA-256");
+            System.out.println("3. Salir");
+            System.out.print("Elige una opción: ");
+            String option = scanner.nextLine();
 
-        // 2. Convertir a SHA-256
-        String hash = sha256(password);
+            switch (option) {
+                case "1":
+                    System.out.print("Contraseña: ");
+                    String password = scanner.nextLine();
+                    String hash = sha256(password);
 
-        // 3. Mostrar hash en consola
-        System.out.println("SHA-256: " + hash);
+                    hashToPassword.put(hash.toLowerCase(), password);
+                    System.out.println("Contraseña guardada en memoria. SHA-256: " + hash);
+                    break;
 
-        scanner.close();
+                case "2":
+                    System.out.print("Introduce SHA-256: ");
+                    String inputHash = scanner.nextLine().toLowerCase();
+
+                    String foundPassword = hashToPassword.get(inputHash);
+                    if (foundPassword != null) {
+                        System.out.println("Contraseña original encontrada: " + foundPassword);
+                    } else {
+                        System.out.println("No se encontró ninguna contraseña con ese hash.");
+                    }
+                    break;
+
+                case "3":
+                    System.out.println("Saliendo...");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        }
     }
 
-    // Función que convierte texto a SHA-256 en hexadecimal
+    // Función para calcular SHA-256
     public static String sha256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedHash = digest.digest(input.getBytes());
+            byte[] hash = digest.digest(input.getBytes());
 
-            // Convertir bytes a formato hexadecimal
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : encodedHash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hash) {
+                String h = Integer.toHexString(0xff & b);
+                if (h.length() == 1) hex.append('0');
+                hex.append(h);
             }
-            return hexString.toString();
-
+            return hex.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
