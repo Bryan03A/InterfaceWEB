@@ -1,15 +1,18 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import java.util.Base64;
 
-public class HashPasswordOptimized {
+public class HashPasswordWithStorage {
 
-    // Base de datos en memoria: hash -> contraseña original
+    private static final String FILE_NAME = "passwords.db";
     private static Map<String, String> hashToPassword = new HashMap<>();
 
     public static void main(String[] args) {
+        // Cargar base de datos al inicio
+        loadDatabase();
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -17,7 +20,6 @@ public class HashPasswordOptimized {
             System.out.println("1. Guardar contraseña");
             System.out.println("2. Buscar contraseña por SHA-256");
             System.out.println("3. Salir");
-            System.out.println("4. Listar todas las contraseñas guardadas");
             System.out.print("Elige una opción: ");
             String option = scanner.nextLine();
 
@@ -28,7 +30,8 @@ public class HashPasswordOptimized {
                     String hash = sha256(password);
 
                     hashToPassword.put(hash.toLowerCase(), password);
-                    System.out.println("Contraseña guardada en memoria. SHA-256: " + hash);
+                    saveDatabase(); // Guardar inmediatamente
+                    System.out.println("Contraseña guardada en archivo. SHA-256: " + hash);
                     break;
 
                 case "2":
@@ -48,24 +51,13 @@ public class HashPasswordOptimized {
                     scanner.close();
                     return;
 
-                case "4":
-                    if (hashToPassword.isEmpty()) {
-                        System.out.println("No hay contraseñas guardadas.");
-                    } else {
-                        System.out.println("Listado de contraseñas guardadas:");
-                        for (Map.Entry<String, String> entry : hashToPassword.entrySet()) {
-                            System.out.println("Contraseña: " + entry.getValue() + " | SHA-256: " + entry.getKey());
-                        }
-                    }
-                    break;
-
                 default:
                     System.out.println("Opción inválida.");
             }
         }
     }
 
-    // Función para calcular SHA-256
+    // Generar SHA-256
     public static String sha256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -80,6 +72,41 @@ public class HashPasswordOptimized {
             return hex.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    // Guardar base de datos en archivo (ofuscado)
+    private static void saveDatabase() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Map.Entry<String, String> entry : hashToPassword.entrySet()) {
+                String line = entry.getKey() + ":" + entry.getValue();
+                // Ofuscamos con Base64 y luego invertimos
+                String encoded = new StringBuilder(Base64.getEncoder().encodeToString(line.getBytes())).reverse().toString();
+                writer.write(encoded);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error guardando la base de datos: " + e.getMessage());
+        }
+    }
+
+    // Cargar base de datos desde archivo
+    private static void loadDatabase() {
+        File file = new File(FILE_NAME);
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Desofuscamos: revertimos la cadena y luego decodificamos Base64
+                String decoded = new String(Base64.getDecoder().decode(new StringBuilder(line).reverse().toString()));
+                String[] parts = decoded.split(":", 2);
+                if (parts.length == 2) {
+                    hashToPassword.put(parts[0], parts[1]);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error cargando la base de datos: " + e.getMessage());
         }
     }
 }
